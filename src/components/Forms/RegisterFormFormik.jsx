@@ -1,5 +1,7 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { nanoid } from "nanoid";
+import * as Yup from "yup";
+import { registerSchema } from "./Shemas";
 
 const RegisterFormFormik = ({ onRegister }) => {
   const country = [
@@ -21,32 +23,53 @@ const RegisterFormFormik = ({ onRegister }) => {
     username: "",
     email: "",
     password: "",
+    confirmedpassword: "",
     age: "",
     country: "usa",
     rules: "false",
   };
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={registerSchema}
+    >
       {({ values }) => (
         <Form className="form">
-          <label className="label">Name:</label>
-          <Field
-            type="text"
-            placeholder="Enter your username..."
-            name="username"
-            className="input"
-          />
+          <label className="label">
+            Name:
+            <Field
+              type="text"
+              placeholder="Enter your username..."
+              name="username"
+              className="input"
+            />
+            <ErrorMessage className="error" component="span" name="username" />
+          </label>
           <Field
             type="text"
             placeholder="Enter your email..."
             name="email"
             className="input"
           />
+          <ErrorMessage className="error" component="span" name="email" />
           <Field
             type="password"
             placeholder="Enter your password..."
             name="password"
             className="input"
+          />
+          <ErrorMessage className="error" component="span" name="password" />
+          <Field
+            type="password"
+            placeholder="Confirm your password..."
+            name="confirmdpassword"
+            className="input"
+          />
+          <ErrorMessage
+            className="error"
+            component="span"
+            name="confirmdpassword"
           />
           <Field
             type="number"
@@ -54,6 +77,7 @@ const RegisterFormFormik = ({ onRegister }) => {
             name="age"
             className="input"
           />
+          <ErrorMessage className="error" component="span" name="age" />
           <Field as="select" name="country" className="input">
             {country.map((country) => (
               <option key={country} value={country}>
@@ -64,6 +88,7 @@ const RegisterFormFormik = ({ onRegister }) => {
           <option value="uk">UK</option>
           <option value="ukraine">Ukraine</option> */}
           </Field>
+          <ErrorMessage className="error" component="span" name="country" />
           <Field
             as="textarea"
             cols="10"
@@ -81,8 +106,8 @@ const RegisterFormFormik = ({ onRegister }) => {
           </label>
           <label>
             <Field type="checkbox" name="rules" />I uderstand life
+            <ErrorMessage className="error" component="span" name="rules" />
           </label>
-
           <button disabled={!values.rules} type="submit" className="btn border">
             Submit
           </button>
