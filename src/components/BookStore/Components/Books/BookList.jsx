@@ -1,6 +1,6 @@
 import BookItem from "./BookItem";
 
-const BookList = ({ books = [] }) => {
+const BookList = ({ books = [], onDelete }) => {
   if (!books.length) {
     return <h3>No books found</h3>;
   }
@@ -8,7 +8,7 @@ const BookList = ({ books = [] }) => {
     <ul>
       <h2>Book List</h2>
       {books.map((book) => (
-        <BookItem item={book} key={book.id} />
+        <BookItem item={book} key={book.id} onDelete={onDelete} />
       ))}
     </ul>
   );

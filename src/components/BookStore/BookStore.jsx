@@ -7,12 +7,17 @@ import booksData from "../../assets/books.json";
 const BookStore = () => {
   const [books, setBooks] = useState(booksData);
   console.log(books);
+
+  const handleDelete = (id) => {
+    console.log(id);
+    setBooks((prev) => prev.filter((item) => item.id !== id));
+  };
   return (
     <div>
       <h1>BookShelf</h1>
       <AddForm />
       <SerchBar />
-      <BookList books={books} />
+      <BookList books={books} onDelete={handleDelete} />
     </div>
   );
 };

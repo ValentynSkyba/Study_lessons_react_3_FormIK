@@ -1,4 +1,4 @@
-const BookItem = ({ item }) => {
+const BookItem = ({ item, onDelete }) => {
   const { id, name, description, author, liked } = item;
   return (
     <li>
@@ -6,7 +6,9 @@ const BookItem = ({ item }) => {
       <p>{description}</p>
       <p>{author}</p>
       <p>{liked}</p>
-      <button className="btn border">Delete</button>
+      <button onClick={() => onDelete(id)} className="btn border">
+        Delete
+      </button>
     </li>
   );
 };
