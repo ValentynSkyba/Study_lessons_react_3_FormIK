@@ -104,8 +104,12 @@ img {
     rgb(63, 76, 119) 70.2%
   );
 }
-
-.error {
+.red {
   color: red;
   font-size: 1rem;
+}
+
+.addForm {
+  width: 40%;
+  margin: 20px auto;
 }
