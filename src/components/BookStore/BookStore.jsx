@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AddForm from "./Components/AddForm/AddForm";
 import BookList from "./Components/Books/BookList";
 import booksData from "../../assets/books.json";
 import SearchBar from "./Components/SearchBar/SearchBar";
 
 const BookStore = () => {
-  const [books, setBooks] = useState(booksData);
+  const [books, setBooks] = useState(() => {
+    const savedBooks = JSON.parse(window.localStorage.getItem("books"));
+    if (savedBooks?.length) {
+      return savedBooks;
+    }
+    return booksData;
+  });
+
   const [searchStr, setSearchStr] = useState("");
+
+  useEffect(() => {
+    window.localStorage.setItem("books", JSON.stringify(books));
+  }, [books]);
 
   const handleDelete = (id) => {
     console.log(id);
