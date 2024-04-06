@@ -3,6 +3,7 @@ import AddForm from "./Components/AddForm/AddForm";
 import BookList from "./Components/Books/BookList";
 import booksData from "../../assets/books.json";
 import SearchBar from "./Components/SearchBar/SearchBar";
+import { toast } from "react-toastify";
 
 const BookStore = () => {
   const [books, setBooks] = useState(() => {
@@ -19,9 +20,14 @@ const BookStore = () => {
     window.localStorage.setItem("books", JSON.stringify(books));
   }, [books]);
 
+  const sortData = () => {
+    setBooks((prev) => prev.sort((a, b) => a.name.localeCompare(b.name)));
+  };
+
   const handleDelete = (id) => {
     console.log(id);
     setBooks((prev) => prev.filter((item) => item.id !== id));
+    sortData();
   };
 
   const getFilteredData = () => {
@@ -35,7 +41,15 @@ const BookStore = () => {
   const filteredData = getFilteredData();
 
   const addBook = (book) => {
+    const isExist = books.some(
+      (item) => item.name === book.name && item.author === book.author
+    );
+    if (isExist) {
+      return toast.error("Книга з таким назвою вже існує");
+    }
     setBooks((prev) => [book, ...prev]);
+    toast.success("Книга додана");
+    sortData();
   };
 
   return (
@@ -43,7 +57,11 @@ const BookStore = () => {
       <h1>BookShelf</h1>
       <AddForm addBook={addBook} />
       <SearchBar searchStr={searchStr} setSearchStr={setSearchStr} />
-      <BookList books={filteredData} onDelete={handleDelete} />
+      <BookList
+        searchStr={searchStr}
+        books={filteredData}
+        onDelete={handleDelete}
+      />
     </div>
   );
 };
