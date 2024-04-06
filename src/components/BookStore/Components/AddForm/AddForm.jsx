@@ -1,7 +1,23 @@
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
 import { nanoid } from "nanoid";
+import * as Yup from "yup";
 
 const AddForm = ({ addBook }) => {
+  const addSchema = Yup.object().shape({
+    name: Yup.string()
+      .min(3, "Too short")
+      .max(100, "Too long")
+      .required("Required"),
+    author: Yup.string()
+      .min(3, "Too short")
+      .max(25, "Too long")
+      .required("Required"),
+    description: Yup.string()
+      .min(3, "Too short")
+      .max(255, "Too long")
+      .required("Required"),
+  });
+
   const initialValues = {
     name: "",
     author: "",
@@ -15,7 +31,11 @@ const AddForm = ({ addBook }) => {
   };
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={addSchema}
+    >
       <Form className="form addForm">
         <label className="label">
           Book name:
@@ -25,6 +45,7 @@ const AddForm = ({ addBook }) => {
             className="input"
             placeholder="Enter name"
           />
+          <ErrorMessage component="span" className="red" name="name" />
         </label>
         <label className="label">
           Book author:
@@ -34,6 +55,7 @@ const AddForm = ({ addBook }) => {
             className="input"
             placeholder="Enter name"
           />
+          <ErrorMessage component="span" className="red" name="author" />
         </label>
         <label className="label">
           Description:
@@ -45,6 +67,7 @@ const AddForm = ({ addBook }) => {
             className="input"
             placeholder="Enter name"
           />
+          <ErrorMessage component="span" className="red" name="description" />
         </label>
         <button type="submit" className="btn border">
           Add book
