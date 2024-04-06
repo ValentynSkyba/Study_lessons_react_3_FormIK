@@ -23,10 +23,14 @@ const BookStore = () => {
   };
   const filteredData = getFilteredData();
 
+  const addBook = (book) => {
+    setBooks((prev) => [book, ...prev]);
+  };
+
   return (
     <div>
       <h1>BookShelf</h1>
-      <AddForm />
+      <AddForm addBook={addBook} />
       <SearchBar searchStr={searchStr} setSearchStr={setSearchStr} />
       <BookList books={filteredData} onDelete={handleDelete} />
     </div>

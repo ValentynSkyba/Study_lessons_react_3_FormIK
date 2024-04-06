@@ -1,30 +1,22 @@
 import { Field, Form, Formik } from "formik";
 import { nanoid } from "nanoid";
 
-const AddForm = () => {
+const AddForm = ({ addBook }) => {
   const initialValues = {
     name: "",
     author: "",
     description: "",
+    liked: false,
   };
 
   const handleSubmit = (data, options) => {
-    console.log({ ...data, id: nanoid() });
+    addBook({ ...data, id: nanoid() });
     options.resetForm();
   };
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       <Form className="form addForm">
-        <label className="label">
-          Book name:
-          <Field
-            type="text"
-            name="name"
-            className="input"
-            placeholder="Enter name"
-          />
-        </label>
         <label className="label">
           Book name:
           <Field
@@ -44,7 +36,7 @@ const AddForm = () => {
           />
         </label>
         <label className="label">
-          Book author:
+          Description:
           <Field
             as="textarea"
             rows="3"
